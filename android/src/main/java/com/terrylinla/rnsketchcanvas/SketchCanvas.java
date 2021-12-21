@@ -207,25 +207,26 @@ public class SketchCanvas extends View {
     }
 
     public void addPath(int id, int strokeColor, float strokeWidth, ArrayList<PointF> points) {
-        boolean exist = false;
-        for(SketchData data: mPaths) {
-            if (data.id == id) {
-                exist = true;
+        int index = -1;
+        for (int i = 0; i < mPaths.size(); i++) {
+            if (mPaths.get(i).id == id) {
+                index = i;
                 break;
             }
         }
-
-        if (!exist) {
-            SketchData newPath = new SketchData(id, strokeColor, strokeWidth, points);
+        SketchData newPath = new SketchData(id, strokeColor, strokeWidth, points);
+        if (index == -1) {
             mPaths.add(newPath);
-            boolean isErase = strokeColor == Color.TRANSPARENT;
-            if (isErase && mDisableHardwareAccelerated == false) {
-                mDisableHardwareAccelerated = true;
-                setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            }
-            newPath.draw(mDrawingCanvas);
-            invalidateCanvas(true);
+        } else {
+            mPaths.set(index, newPath);
         }
+        boolean isErase = strokeColor == Color.TRANSPARENT;
+        if (isErase && mDisableHardwareAccelerated == false) {
+            mDisableHardwareAccelerated = true;
+            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        newPath.draw(mDrawingCanvas);
+        invalidateCanvas(true);        
     }
 
     public void deletePath(int id) {

@@ -309,7 +309,11 @@ class SketchCanvas extends React.Component {
             size: this._size,
             drawer: this.props.user,
           });
-          // this._paths.push({ path: this._path, size: this._size, drawer: this.props.user })
+          this._paths.push({
+            path: this._path,
+            size: this._size,
+            drawer: this.props.user,
+          });
         }
         UIManager.dispatchViewManagerCommand(
           this._handle,
@@ -327,11 +331,6 @@ class SketchCanvas extends React.Component {
   getRealTimePathData() {
     if (this._path) {
       this.props.onStrokeChangedData({
-        path: this._path,
-        size: this._size,
-        drawer: this.props.user,
-      });
-      this._paths.push({
         path: this._path,
         size: this._size,
         drawer: this.props.user,
