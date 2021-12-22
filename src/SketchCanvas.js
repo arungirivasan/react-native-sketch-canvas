@@ -31,6 +31,7 @@ class SketchCanvas extends React.Component {
     onStrokeStart: PropTypes.func,
     onStrokeChanged: PropTypes.func,
     onStrokeChangedData: PropTypes.func,
+    onPathIdAssigned: PropTypes.func,
     onStrokeEnd: PropTypes.func,
     onSketchSaved: PropTypes.func,
     user: PropTypes.string,
@@ -69,6 +70,7 @@ class SketchCanvas extends React.Component {
     onStrokeStart: () => {},
     onStrokeChanged: () => {},
     onStrokeChangedData: () => {},
+    onPathIdAssigned: () => {},
     onStrokeEnd: () => {},
     onSketchSaved: () => {},
     user: null,
@@ -82,9 +84,7 @@ class SketchCanvas extends React.Component {
     permissionDialogMessage: "",
   };
 
-  state = {
-    text: null,
-  };
+  state = { text: null, pathId: "" };
 
   constructor(props) {
     super(props);
@@ -132,6 +132,10 @@ class SketchCanvas extends React.Component {
     );
     if (lastId >= 0) this.deletePath(lastId);
     return lastId;
+  }
+
+  setPathId(id) {
+    this.setState({ pathId: id });
   }
 
   addPath(data) {
@@ -243,7 +247,7 @@ class SketchCanvas extends React.Component {
         const e = evt.nativeEvent;
         this._offset = { x: e.pageX - e.locationX, y: e.pageY - e.locationY };
         this._path = {
-          id: parseInt(Math.random() * 100000000),
+          id: this.state.pathId,
           color: this.props.strokeColor,
           width: this.props.strokeWidth,
           data: [],
@@ -274,6 +278,7 @@ class SketchCanvas extends React.Component {
           y = parseFloat((gestureState.y0 - this._offset.y).toFixed(2));
         this._path.data.push(`${x},${y}`);
         this.props.onStrokeStart(x, y);
+        this.props.onPathIdAssigned(true);
       },
       onPanResponderMove: (evt, gestureState) => {
         if (!this.props.touchEnabled) return;

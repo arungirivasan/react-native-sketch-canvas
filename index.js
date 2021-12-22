@@ -17,6 +17,7 @@ export default class RNSketchCanvas extends React.Component {
     onStrokeStart: PropTypes.func,
     onStrokeChanged: PropTypes.func,
     onStrokeChangedData: PropTypes.func,
+    onPathIdAssigned: PropTypes.func,
     onStrokeEnd: PropTypes.func,
     onClosePressed: PropTypes.func,
     onUndoPressed: PropTypes.func,
@@ -76,6 +77,7 @@ export default class RNSketchCanvas extends React.Component {
     onStrokeStart: () => {},
     onStrokeChanged: () => {},
     onStrokeChangedData: () => {},
+    onPathIdAssigned: () => {},
     onStrokeEnd: () => {},
     onClosePressed: () => {},
     onUndoPressed: () => {},
@@ -158,6 +160,10 @@ export default class RNSketchCanvas extends React.Component {
 
   deletePath(id) {
     this._sketchCanvas.deletePath(id);
+  }
+
+  setPathId(id) {
+    this._sketchCanvas.setPathId(id);
   }
 
   save() {
@@ -347,6 +353,7 @@ export default class RNSketchCanvas extends React.Component {
           onStrokeStart={this.props.onStrokeStart}
           onStrokeChanged={this.props.onStrokeChanged}
           onStrokeChangedData={this.props.onStrokeChangedData}
+          onPathIdAssigned={this.props.onPathIdAssigned}
           onStrokeEnd={this.props.onStrokeEnd}
           user={this.props.user}
           strokeWidth={this.state.strokeWidth}
