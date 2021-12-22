@@ -162,8 +162,8 @@ export default class RNSketchCanvas extends React.Component {
     this._sketchCanvas.deletePath(id);
   }
 
-  setPathId(id) {
-    this._sketchCanvas.setPathId(id);
+  setPathId(pathId) {
+    this._sketchCanvas.setPathId(pathId);
   }
 
   save() {

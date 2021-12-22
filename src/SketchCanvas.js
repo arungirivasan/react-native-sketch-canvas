@@ -97,7 +97,7 @@ class SketchCanvas extends React.Component {
     this._size = { width: 0, height: 0 };
     this._initialized = false;
 
-    this._pathId = "";
+    this._pathIds = [];
 
     this.state.text = this._processText(
       props.text ? props.text.map((t) => Object.assign({}, t)) : null
@@ -136,8 +136,8 @@ class SketchCanvas extends React.Component {
     return lastId;
   }
 
-  setPathId(id) {
-    this._pathId = id;
+  setPathId(pathId) {
+    this._pathIds.push(pathId);
   }
 
   addPath(data) {
@@ -249,11 +249,14 @@ class SketchCanvas extends React.Component {
         const e = evt.nativeEvent;
         this._offset = { x: e.pageX - e.locationX, y: e.pageY - e.locationY };
         this._path = {
-          id: this._pathId,
+          id: this._pathIds[0],
           color: this.props.strokeColor,
           width: this.props.strokeWidth,
           data: [],
         };
+
+        this._pathIds.splice(0, 1);
+        this.props.onPathIdAssigned(true);
 
         UIManager.dispatchViewManagerCommand(
           this._handle,
@@ -280,8 +283,6 @@ class SketchCanvas extends React.Component {
           y = parseFloat((gestureState.y0 - this._offset.y).toFixed(2));
         this._path.data.push(`${x},${y}`);
         this.props.onStrokeStart(x, y);
-        this._pathId = "";
-        this.props.onPathIdAssigned(true);
       },
       onPanResponderMove: (evt, gestureState) => {
         if (!this.props.touchEnabled) return;
