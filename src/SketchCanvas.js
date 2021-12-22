@@ -84,7 +84,7 @@ class SketchCanvas extends React.Component {
     permissionDialogMessage: "",
   };
 
-  state = { text: null, pathId: "" };
+  state = { text: null };
 
   constructor(props) {
     super(props);
@@ -96,6 +96,8 @@ class SketchCanvas extends React.Component {
     this._offset = { x: 0, y: 0 };
     this._size = { width: 0, height: 0 };
     this._initialized = false;
+
+    this._pathId = "";
 
     this.state.text = this._processText(
       props.text ? props.text.map((t) => Object.assign({}, t)) : null
@@ -135,7 +137,7 @@ class SketchCanvas extends React.Component {
   }
 
   setPathId(id) {
-    this.setState({ pathId: id });
+    this._pathId = id;
   }
 
   addPath(data) {
@@ -247,7 +249,7 @@ class SketchCanvas extends React.Component {
         const e = evt.nativeEvent;
         this._offset = { x: e.pageX - e.locationX, y: e.pageY - e.locationY };
         this._path = {
-          id: this.state.pathId,
+          id: this._pathId,
           color: this.props.strokeColor,
           width: this.props.strokeWidth,
           data: [],
@@ -278,6 +280,7 @@ class SketchCanvas extends React.Component {
           y = parseFloat((gestureState.y0 - this._offset.y).toFixed(2));
         this._path.data.push(`${x},${y}`);
         this.props.onStrokeStart(x, y);
+        this._pathId = "";
         this.props.onPathIdAssigned(true);
       },
       onPanResponderMove: (evt, gestureState) => {
