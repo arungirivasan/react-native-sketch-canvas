@@ -220,7 +220,7 @@
     [self setNeedsDisplay];
 }
 
-- (void)newPath:(int) pathId strokeColor:(UIColor*) strokeColor strokeWidth:(int) strokeWidth {
+- (void)newPath:(NSString*) pathId strokeColor:(UIColor*) strokeColor strokeWidth:(int) strokeWidth {
     _currentPath = [[RNSketchData alloc]
                     initWithId: pathId
                     strokeColor: strokeColor
@@ -228,32 +228,38 @@
     [_paths addObject: _currentPath];
 }
 
-- (void) addPath:(int) pathId strokeColor:(UIColor*) strokeColor strokeWidth:(int) strokeWidth points:(NSArray*) points {
-    bool exist = false;
-    for(int i=0; i<_paths.count; i++) {
-        if (((RNSketchData*)_paths[i]).pathId == pathId) {
-            exist = true;
+- (void) addPath:(NSString*) pathId strokeColor:(UIColor*) strokeColor strokeWidth:(int) strokeWidth points:(NSArray*) points {
+    int index = -1;
+    for (int i = 0; i < _paths.count; i++) {
+        if ([((RNSketchData*)_paths[i]).pathId isEqualToString:pathId]) {
+            index = i;
             break;
         }
     }
     
-    if (!exist) {
-        RNSketchData *data = [[RNSketchData alloc] initWithId: pathId
+    RNSketchData *data = [[RNSketchData alloc] initWithId: pathId
                                                   strokeColor: strokeColor
                                                   strokeWidth: strokeWidth
                                                        points: points];
+    if(index == -1){
+        //add data to array
         [_paths addObject: data];
-        [data drawInContext:_drawingContext];
-        [self setFrozenImageNeedsUpdate];
-        [self setNeedsDisplay];
-        [self notifyPathsUpdate];
+    }else{
+        //update data in the array
+        [_paths removeObjectAtIndex:index];
+        [_paths insertObject:data atIndex:index];
     }
+        
+    [data drawInContext:_drawingContext];
+    [self setFrozenImageNeedsUpdate];
+    [self setNeedsDisplay];
+    [self notifyPathsUpdate];
 }
 
-- (void)deletePath:(int) pathId {
+- (void)deletePath:(NSString*) pathId {
     int index = -1;
     for(int i=0; i<_paths.count; i++) {
-        if (((RNSketchData*)_paths[i]).pathId == pathId) {
+        if ([((RNSketchData*)_paths[i]).pathId isEqualToString:pathId]) {
             index = i;
             break;
         }

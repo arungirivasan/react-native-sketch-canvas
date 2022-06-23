@@ -183,7 +183,7 @@ public class SketchCanvas extends View {
         invalidateCanvas(true);
     }
 
-    public void newPath(int id, int strokeColor, float strokeWidth) {
+    public void newPath(String id, int strokeColor, float strokeWidth) {
         mCurrentPath = new SketchData(id, strokeColor, strokeWidth);
         mPaths.add(mCurrentPath);
         boolean isErase = strokeColor == Color.TRANSPARENT;
@@ -206,32 +206,33 @@ public class SketchCanvas extends View {
         invalidate(updateRect);
     }
 
-    public void addPath(int id, int strokeColor, float strokeWidth, ArrayList<PointF> points) {
-        boolean exist = false;
-        for(SketchData data: mPaths) {
-            if (data.id == id) {
-                exist = true;
+    public void addPath(String id, int strokeColor, float strokeWidth, ArrayList<PointF> points) {
+        int index = -1;
+        for (int i = 0; i < mPaths.size(); i++) {
+            if (mPaths.get(i).id.equals(id)) {
+                index = i;
                 break;
             }
         }
-
-        if (!exist) {
-            SketchData newPath = new SketchData(id, strokeColor, strokeWidth, points);
+        SketchData newPath = new SketchData(id, strokeColor, strokeWidth, points);
+        if (index == -1) {
             mPaths.add(newPath);
-            boolean isErase = strokeColor == Color.TRANSPARENT;
-            if (isErase && mDisableHardwareAccelerated == false) {
-                mDisableHardwareAccelerated = true;
-                setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            }
-            newPath.draw(mDrawingCanvas);
-            invalidateCanvas(true);
+        } else {
+            mPaths.set(index, newPath);
         }
+        boolean isErase = strokeColor == Color.TRANSPARENT;
+        if (isErase && mDisableHardwareAccelerated == false) {
+            mDisableHardwareAccelerated = true;
+            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        newPath.draw(mDrawingCanvas);
+        invalidateCanvas(true);        
     }
 
-    public void deletePath(int id) {
+    public void deletePath(String id) {
         int index = -1;
         for(int i = 0; i<mPaths.size(); i++) {
-            if (mPaths.get(i).id == id) {
+            if (mPaths.get(i).id.equals(id)) {
                 index = i;
                 break;
             }

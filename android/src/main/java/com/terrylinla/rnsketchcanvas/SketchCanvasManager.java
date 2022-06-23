@@ -97,7 +97,7 @@ public class SketchCanvasManager extends SimpleViewManager<SketchCanvas> {
                 return;
             }
             case COMMAND_NEW_PATH: {
-                view.newPath(args.getInt(0), args.getInt(1), (float)args.getDouble(2));
+                view.newPath(args.getString(0), args.getInt(1), (float)args.getDouble(2));
                 return;
             }
             case COMMAND_CLEAR: {
@@ -111,11 +111,11 @@ public class SketchCanvasManager extends SimpleViewManager<SketchCanvas> {
                     String[] coor = path.getString(i).split(",");
                     pointPath.add(new PointF(Float.parseFloat(coor[0]), Float.parseFloat(coor[1])));
                 }
-                view.addPath(args.getInt(0), args.getInt(1), (float)args.getDouble(2), pointPath);
+                view.addPath(args.getString(0), args.getInt(1), (float)args.getDouble(2), pointPath);
                 return;
             }
             case COMMAND_DELETE_PATH: {
-                view.deletePath(args.getInt(0));
+                view.deletePath(args.getString(0));
                 return;
             }
             case COMMAND_SAVE: {

@@ -14,7 +14,8 @@ import java.util.ArrayList;
 
 public class SketchData {
     public final ArrayList<PointF> points = new ArrayList<PointF>();
-    public final int id, strokeColor;
+    public final String id;
+    public final int strokeColor;
     public final float strokeWidth;
     public final boolean isTranslucent;
 
@@ -26,7 +27,7 @@ public class SketchData {
         return new PointF((p1.x + p2.x) * 0.5f, (p1.y + p2.y) * 0.5f);
     }
 
-    public SketchData(int id, int strokeColor, float strokeWidth) {
+    public SketchData(String id, int strokeColor, float strokeWidth) {
         this.id = id;
         this.strokeColor = strokeColor;
         this.strokeWidth = strokeWidth;
@@ -34,7 +35,7 @@ public class SketchData {
         mPath = this.isTranslucent ? new Path() : null;
     }
 
-    public SketchData(int id, int strokeColor, float strokeWidth, ArrayList<PointF> points) {
+    public SketchData(String id, int strokeColor, float strokeWidth, ArrayList<PointF> points) {
         this.id = id;
         this.strokeColor = strokeColor;
         this.strokeWidth = strokeWidth;
