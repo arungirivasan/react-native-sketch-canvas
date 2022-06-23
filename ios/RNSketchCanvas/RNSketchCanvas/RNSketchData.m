@@ -11,7 +11,7 @@
 
 @interface RNSketchData ()
 
-@property (nonatomic, readwrite) int pathId;
+@property (nonatomic, readwrite) NSString* pathId;
 @property (nonatomic, readwrite) CGFloat strokeWidth;
 @property (nonatomic, readwrite) UIColor* strokeColor;
 @property (nonatomic, readwrite) NSMutableArray<NSValue*> *points;
@@ -24,7 +24,7 @@
     UIBezierPath *_path;
 }
 
-- (instancetype)initWithId:(int) pathId strokeColor:(UIColor*) strokeColor strokeWidth:(int) strokeWidth {
+- (instancetype)initWithId:(NSString*) pathId strokeColor:(UIColor*) strokeColor strokeWidth:(int) strokeWidth {
     self = [super init];
     if (self) {
         _pathId = pathId;
@@ -39,7 +39,7 @@
     return self;
 }
 
-- (instancetype)initWithId:(int) pathId strokeColor:(UIColor*) strokeColor strokeWidth:(int) strokeWidth points: (NSArray*) points {
+- (instancetype)initWithId:(NSString*) pathId strokeColor:(UIColor*) strokeColor strokeWidth:(int) strokeWidth points: (NSArray*) points {
     self = [super init];
     if (self) {
         _pathId = pathId;
