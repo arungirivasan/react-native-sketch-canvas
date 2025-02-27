@@ -10,8 +10,8 @@
 
 - (BOOL)openSketchFile:(NSString *)filename directory:(NSString*) directory contentMode:(NSString*)mode;
 - (void)setCanvasText:(NSArray *)text;
-- (void)newPath:(NSString*) pathId strokeColor:(UIColor*) strokeColor strokeWidth:(int) strokeWidth;
-- (void)addPath:(NSString*) pathId strokeColor:(UIColor*) strokeColor strokeWidth:(int) strokeWidth points:(NSArray*) points;
+- (void)newPath:(NSString*) pathId strokeColor:(UIColor*) strokeColor strokeWidth:(float) strokeWidth;
+- (void)addPath:(NSString*) pathId strokeColor:(UIColor*) strokeColor strokeWidth:(float) strokeWidth points:(NSArray*) points;
 - (void)deletePath:(NSString*) pathId;
 - (void)addPointX: (float)x Y: (float)y;
 - (void)endPath;
